@@ -16,8 +16,11 @@ UrlPart = [tag['href'] for tag in result]
 # Construct completed url
 CompleteUrl = [UrlPrefix+url for url in UrlPart]
 
+# Set browser's position
+BrowserPosition = "/mnt/73G/phantomjs-2.1.1-linux-x86_64/bin/phantomjs"
+
 # Use PhantomJs browser to get content that generate by Javascript
-driver = webdriver.PhantomJS(executable_path="/mnt/73G/phantomjs-2.1.1-linux-x86_64/bin/phantomjs")
+driver = webdriver.PhantomJS(executable_path=BrowserPosition)
 
 fout = open('url.txt', 'w')
 
@@ -42,5 +45,8 @@ for url in CompleteUrl:
 	# Print information
 	print('Get one...')
 
+# Close file `url.txt`
 fout.close()
+
+# Closes the current window
 driver.close()
