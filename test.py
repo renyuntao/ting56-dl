@@ -8,7 +8,7 @@ UrlPrefix = "http://www.ting56.com"
 
 html = urlopen("http://www.ting56.com/mp3/4704.html")
 soup = BeautifulSoup(html, "lxml")
-result = soup.find_all(title=True,href=re.compile("^/video"), limit=1)
+result = soup.find_all(title=True,href=re.compile("^/video"), limit=2)
 
 # Extract `href` part from `result` list   
 UrlPart = [tag['href'] for tag in result]
@@ -19,7 +19,11 @@ CompleteUrl = [UrlPrefix+url for url in UrlPart]
 # Use PhantomJs browser to get content that generate by Javascript
 driver = webdriver.PhantomJS(executable_path="/mnt/73G/phantomjs-2.1.1-linux-x86_64/bin/phantomjs")
 
+fout = open('url.txt', 'w')
+
 for url in CompleteUrl:
+	print('url:',url)
+
 	# Scrap Web page that URL is `url`
 	driver.get(url)
 
@@ -32,7 +36,11 @@ for url in CompleteUrl:
 	# Get tag that name is `source`
 	tag = bsObj.find("source")
 
-	# Get the attribute `src` of tag `source`
-	print(tag['src'])
+	# Write the attribute `tag` of tag `source`(i.e. url) to file `url.txt`
+	fout.write(tag['src']+'\n')
 
+	# Print information
+	print('Get one...')
+
+fout.close()
 driver.close()
