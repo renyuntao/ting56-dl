@@ -1,18 +1,8 @@
 #!/usr/bin/python3.4
-import re
-from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
-UrlPrefix = "https://www.google.com"
+url = "http://www.ting56.com/video/4704-0-57.html"
 
-soup = BeautifulSoup(open("index.html"),"lxml")
-result = soup.find_all(title=True,href=re.compile("^/video"), limit=2)
-
-# Extract `href` part from `result` list   
-UrlPart = [tag['href'] for tag in result]
-
-# Construct completed url
-CompleteUrl = [UrlPrefix+url for url in UrlPart]
-
-for elem in CompleteUrl:
-	print(elem)
-print(len(CompleteUrl))
+html = urlopen(url)
+content = html.read().decode('cp936')
+print(content)
