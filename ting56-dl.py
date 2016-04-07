@@ -1,12 +1,22 @@
 #!/usr/bin/python3.4
 import re
+import datetime
 from urllib.request import urlopen
+from urllib.request import urlretrieve
+from urllib.request import URLError
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
 UrlPrefix = "http://www.ting56.com"
 
-html = urlopen("http://www.ting56.com/mp3/4704.html")
+html = ''
+
+try:
+	html = urlopen("http://www.ting56.com/mp3/4704.html")
+except URLError:
+	print('URLError: Name or service not known, network may not accessible.')
+	exit(1)
+
 soup = BeautifulSoup(html, "lxml")
 result = soup.find_all(title=True,href=re.compile("^/video"), limit=2)
 
@@ -47,6 +57,31 @@ for url in CompleteUrl:
 
 # Close file `url.txt`
 fout.close()
-
 # Closes the current window
 driver.close()
+
+#####################################################################
+# Download the audio file from the URL that saved in file `url.txt` # 
+
+# Read url from `url.txt`
+fin = open('url.txt')
+urls = fin.readlines()
+fin.close
+
+seq = 1
+
+# Error information saved in file `error.log`
+fout = open('error.log', 'a')
+
+# Download file
+for url in urls:
+	url = url.rstrip('\n')
+
+	try:
+		urlretrieve(url, 'Downloads/file{0}'.format(seq))
+	except URLError:
+		fout.write(str(datetime.datetime.now()) + '   URLError: Name or service not known.   file{0} not download.\n'.format(seq))
+
+	seq += 1
+
+fout.close()
