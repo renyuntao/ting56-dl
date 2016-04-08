@@ -1,24 +1,48 @@
 #!/usr/bin/python3.4
+# Function: Download audio file from `http://www.ting56.com`
+
 import re
 import datetime
+from sys import argv
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 from urllib.request import URLError
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
+if len(argv) < 2:
+	print('Too few parameter, please input URL')
+	exit(1)
+
+# Accept URL from command line argument
+inputURL = argv[1]
+
+# Check if `inputURL` is valid
+if not re.search(r".*www.ting56\.com.*", inputURL):
+	print("Error: The input URL is not `http://www.ting56.com/...`")
+	print("Only the URL `http://www.ting56.com/...` is acceptable.")
+	exit(1)
+
+# If `inputURL` doesn't have `http://` prefix, then add it
+if not re.search(r"http://", inputURL):
+	inputURL = "http://" + inputURL
+
 UrlPrefix = "http://www.ting56.com"
 
 html = ''
 
 try:
-	html = urlopen("http://www.ting56.com/mp3/4704.html")
+	html = urlopen(inputURL)
+except ValueError:
+	print('Unknown URL type:{0}'.format(inputURL))
+	print('Valid URL example:\nhttp://www.ting56.com')
+	exit(1)
 except URLError:
 	print('URLError: Name or service not known, network may not accessible.')
 	exit(1)
 
 soup = BeautifulSoup(html, "lxml")
-result = soup.find_all(title=True,href=re.compile("^/video"), limit=2)
+result = soup.find_all(title=True,href=re.compile("^/video"), limit=1)
 
 # Extract `href` part from `result` list   
 UrlPart = [tag['href'] for tag in result]
@@ -73,15 +97,17 @@ seq = 1
 # Error information saved in file `error.log`
 fout = open('error.log', 'a')
 
+print('Start donwload...')
 # Download file
 for url in urls:
 	url = url.rstrip('\n')
 
 	try:
-		urlretrieve(url, 'Downloads/file{0}'.format(seq))
+		urlretrieve(url, 'Downloads/file{0}.m4a'.format(seq))
 	except URLError:
 		fout.write(str(datetime.datetime.now()) + '   URLError: Name or service not known.   file{0} not download.\n'.format(seq))
 
+	print('download next...')
 	seq += 1
 
 fout.close()
