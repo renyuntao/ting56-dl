@@ -13,9 +13,11 @@
 In this example, you should run the following command in you terminal:                 
            
 ```bash
+$ chmod u+x ting56-dl
 $ ./ting56-dl http://www.ting56.com/mp3/4704.html
 ```             
 Then the audio file will download to directory `Downloads`   
                
 # Note
-In order to run **ting56-dl** on you system, you should install **[Selenium](https://pypi.python.org/pypi/selenium)**, **[BeautifualSoup](https://pypi.python.org/pypi/beautifulsoup4)**, **[PhantomJS](http://phantomjs.org/download.html)** and **[Python3.4](https://www.python.org/downloads/release/python-340/)** beforehand.
+- In order to run **ting56-dl** on you system, you should install **[Selenium](https://pypi.python.org/pypi/selenium)**, **[BeautifualSoup](https://pypi.python.org/pypi/beautifulsoup4)**, **[PhantomJS](http://phantomjs.org/download.html)** and **[Python3.4](https://www.python.org/downloads/release/python-340/)** beforehand.
+- Change the `"/path/to/phantomjs"`(55th line in file `ting56-dl`) to the path of your `phantomjs` on your system.     
