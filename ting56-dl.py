@@ -51,7 +51,8 @@ UrlPart = [tag['href'] for tag in result]
 CompleteUrl = [UrlPrefix+url for url in UrlPart]
 
 # Set browser's position
-BrowserPosition = "/mnt/73G/phantomjs-2.1.1-linux-x86_64/bin/phantomjs"
+#BrowserPosition = "/mnt/73G/phantomjs-2.1.1-linux-x86_64/bin/phantomjs"
+BrowserPosition = "/path/to/phantomjs"
 
 # Use PhantomJs browser to get content that generate by Javascript
 driver = webdriver.PhantomJS(executable_path=BrowserPosition)
