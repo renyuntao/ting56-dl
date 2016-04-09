@@ -60,7 +60,7 @@ driver = webdriver.PhantomJS(executable_path=BrowserPosition)
 fout = open('url.txt', 'w')
 
 for url in CompleteUrl:
-	print('url:',url)
+	print('Get audio file url from this url:',url)
 
 	# Scrap Web page that URL is `url`
 	driver.get(url)
